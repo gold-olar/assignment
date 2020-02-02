@@ -41,8 +41,8 @@ router.post('/login', async (req, res) =>{
        res.redirect("/dashboard");
      }
   } catch (error) {
-      res.render('login');
-      console.log(error)
+      res.render('dashboard');
+      console.log(error.response)
   }
 
 })
