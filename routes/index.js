@@ -29,11 +29,21 @@ router.get('/login', (req, res) => {
 
 router.post('/login', async (req, res) =>{
   const {email, password} = req.body;
- const login = await  axios.post('http://b22ad469.ngrok.io/api/login/');
- console.log(login);
- if(login.status === 200){
-   res.redirect("/dashboard");
- }
+  try {
+    const login = await axios({
+      method: 'post',
+      url: 'http://b22ad469.ngrok.io/api/login/',
+      data: {
+        email, password,
+      }
+    });
+     if(login.status === 200){
+       res.redirect("/dashboard");
+     }
+  } catch (error) {
+      res.render('login');
+      console.log(error)
+  }
 
 })
 
