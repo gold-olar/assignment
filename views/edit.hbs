@@ -1,0 +1,46 @@
+<div id="colorlib-main">
+			<section class="ftco-section contact-section">
+	      <div class="container">
+	        <div class="row d-flex mb-5 contact-info">
+	          <div class="col-md-12 mb-4">
+	            <h2 class="h4 font-weight-bold"> Edit Contact </h2>
+	          </div>
+                {{#each errors}}
+        <div class="row">
+            
+            <div class="col">
+                {{text}}
+            </div>
+           
+        </div>
+
+        {{else}} {{/each}}
+
+	        </div>
+	        <div class="row block-9">
+	          <div class="col-md-8 order-md-last pr-md-5">
+	             <form action="/edit/{{id}}" method="POST" id="createContactForm" >
+	              <div class="form-group">
+	                <input id="firstName" value="{{firstName}} "type="text" name="firstName" class="form-control" placeholder="First Name">
+	              </div>
+                <div class="form-group">
+	                <input id="lastName" value = "{{lastName}}" type="text" name="lastName" class="form-control" placeholder="Last Name">
+	              </div>
+                <div class="form-group">
+	                <input id="phone" value="{{phone}}" type="number" name="phone" class="form-control" placeholder="Phone Number">
+	              </div>
+
+	              <div class="form-group">
+                  <input type="submit" value="Edit Contact" class="btn btn-primary py-3 px-5">
+
+	              </div>
+	            </form>
+
+	          </div>
+
+
+	        </div>
+	      </div>
+	    </section>
+
+  

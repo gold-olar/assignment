@@ -3,6 +3,20 @@ const express = require('express');
 const httpErrors = require('http-errors');
 const logger = require('morgan');
 const path = require('path');
+const mongoose = require('mongoose');
+
+const db = require('./config/database');
+require('dotenv').config();
+
+//To Connect to Database
+mongoose.connect(db.mongoURI, {
+  useNewUrlParser: true,
+})
+  .then(() => console.log('Connected to DB'))
+  .catch(err => console.log(err));
+
+
+
 
 const indexRouter = require('./routes/index');
 

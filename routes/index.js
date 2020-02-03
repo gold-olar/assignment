@@ -1,6 +1,11 @@
 const { Router } = require('express');
-const axios = require('axios');
 const router = Router();
+const signupControler = require('../controllers/signupController');
+const signinControler = require('../controllers/signinController');
+const contactControler = require('../controllers/contactController');
+const Contact = require('../models/Contact')
+
+
 
 /* GET index page. */
 router.get('/', (req, res) => {
@@ -9,17 +14,15 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/contact', (req, res) => {
-  res.render('contact', {
-    title: 'Olamide Samuel || Contact'
+
+router.get('/signup', (req, res) => {
+  res.render('signup', {
+    title: 'Olamide Samuel ||  SignUp'
   });
 });
 
-router.get('/dashboard', (req, res) => {
-  res.render('dashboard', {
-    title: 'Olamide Samuel || Dashboard'
-  });
-});
+router.post('/signup', signupControler.signupForm);
+
 
 router.get('/login', (req, res) => {
   res.render('login', {
@@ -27,23 +30,66 @@ router.get('/login', (req, res) => {
   });
 });
 
-router.post('/login', async (req, res) =>{
-  const {email, password} = req.body;
-  try {
-    const login = await axios({
-      method: 'post',
-      url: 'http://b22ad469.ngrok.io/api/login/',
-      data: {
-        email, password,
-      }
+router.post('/login', signinControler.signinForm);
+
+
+router.get('/contact', (req, res) => {
+  res.render('contact', {
+    title: 'Olamide Samuel || Contact'
+  });
+});
+
+
+
+router.get('/dashboard', (req, res) => {
+  Contact.find()
+    .then(contacts => {
+      res.render('dashboard', {
+        title: 'Olamide Samuel || Dashboard',
+        contacts,
+      });
     });
-     if(login.status === 200){
-       res.redirect("/dashboard");
-     }
-  } catch (error) {
-      res.render('dashboard');
-      console.log(error.response)
-  }
+
+
+});
+router.post('/create-contact', contactControler.contactForm);
+
+router.post('/edit/:id', (req, res) => {
+  Contact.findOne({ _id: req.params.id })
+    .then(contact => {
+      contact.firstName = req.body.firstName;
+      contact.lastName = req.body.lastName;
+      contact.phone = req.body.phone;
+
+      contact.save()
+        .then(contact => {
+          res.redirect('/dashboard');
+        })
+    });
+})
+
+router.get('/edit/:id', (req, res) => {
+  Contact.findOne({
+    _id: req.params.id
+  })
+    .then(contact => {
+      res.render('edit', {
+        title: 'Olamide Samuel || Edit',
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        phone: contact.phone,
+        id: contact.id,
+      });
+    });
+
+});
+
+
+router.get('/delete/:id', (req, res) => {
+  Contact.deleteOne({_id: req.params.id})
+  .then(contact=>{
+      res.redirect('/dashboard');
+  })
 
 })
 

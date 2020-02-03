@@ -21,13 +21,20 @@
                 </tr>
               </thead>
               <tbody id="table">
+                  {{#each contacts}}
                 <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>07068093818</td>
-                  <td> <img src="images/pencil.png" alt=""> || <img src="images/cross.png" alt=""></td>
+                  <th scope="row"> <img src="images/profile.png" alt=""> </th>
+                  <td>{{firstName}}</td>
+                  <td>{{lastName}}</td>
+                  <td>{{phone}}</td>
+                  <td> <a href="/edit/{{id}}"> <img src="images/pencil.png" alt=""></a> || <a href="/delete/{{id}}"> <img src="images/cross.png" alt=""></a></td>
                 </tr>
+                  {{else}}
+     
+                <p class="Session-body">You don't have any  contacts yet.</p>
+
+          
+             {{/each}}
 
               </tbody>
             </table>
@@ -36,7 +43,7 @@
               <h4 class="h4 font-weight-bold"> Create Contact</h4>
 
 
-	            <form id="createContactForm" >
+	            <form action="/create-contact" method="POST" id="createContactForm" >
 	              <div class="form-group">
 	                <input id="firstName" type="text" name="firstName" class="form-control" placeholder="First Name">
 	              </div>
